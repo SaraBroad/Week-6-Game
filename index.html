@@ -29,23 +29,33 @@ var cities = ["Philadelphia", "New York", "Denver", "London", "Tokyo", "Florence
 //need to generate buttons for each item in the array
 
 $("#cities-buttons").on("click", function(){
-   var cityDiv = $(this).attr("city-name");
-   var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+   var cityDiv = $(this).attr('city-name');
+   var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
         cityDiv + "&api_key=dc6zaTOxFJmzC&limit=10";
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function(response) {
+var results = response.data;
+console.log(results);
+for (var i=0; i<results.length; i++) {
     var buttonDiv = $("<div>");
-    var rating = response.Rated
+    var rating = results[i].rating;
     var ratingDiv = $("<p>").text("Rated " + rating);
     buttonDiv.append(ratingDiv);
     var img = $("<img>");
     // img.addClass("infoButton");
     img.attr("city-name");
+    img.attr("src", results[i].images.fixed_height.url);
     buttonDiv.append(img);
     $("#gif-box").append(buttonDiv);
+
+    }
 });
+
+function createQueryUrl() {
+    
+}
 
 
 })
@@ -58,7 +68,7 @@ $("#cities-buttons").empty();
 for (var i=0; i<cities.length;i++){
     var buttons = $("<button>");
     buttons.addClass("cities-buttons");
-    buttons.attr("city-name", cities[i]);
+    buttons.attr('city-name', cities[i]);
     buttons.text(cities[i]);
     $("#cities-buttons").append(buttons);
 }
