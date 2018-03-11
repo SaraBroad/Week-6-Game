@@ -1,0 +1,29 @@
+body {
+background-color: #F5F5F5
+}
+
+#cities-form {
+    float: right;
+    margin-right: 80px;
+    margin-top: 115px;
+}
+
+#cities-input {
+    width: 225px;
+    margin-top: 5px;
+}
+
+#add-cities {
+    margin-top: 5px;
+    background-color: #4aaaa5;
+    border-radius: 3px;
+    min-width: 75px;
+    color: white;
+}
+
+#cities-buttons {
+    /* background-color: #4aaaa5; */
+    /* padding: 10px; */
+    margin: 10px;
+    /* padding-right: 10px; */
+}

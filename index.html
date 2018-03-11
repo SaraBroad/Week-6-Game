@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 6 Game</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+</head>
+<body>
 
+<div id="cities-buttons"></div>
+
+<div id="cities-form">
+    <label for="cities-input"><span style="font-weight: bold">Add a City</span></label></br>
+    <input type="text" id="cities-input"></br>
+    <input id="add-cities" type="submit" value="Submit">
+</div>
+
+<div id="gif-box"></div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+//choose a topic
+//write an array containing things of that topic
+var cities = ["Philadelphia", "New York", "Denver", "London", "Tokyo", "Florence", "Rome", "Berlin", "Paris", "Madrid", "Tel Aviv", "Los Angeles", "Beijing", "Bangkok", "Istanbul", "Hong Kong", "Amsterdam", "Sydney", "Shanghai", "Barcelona"];
+//need to generate buttons for each item in the array
+
+$("#cities-buttons").on("click", function(){
+   var cityDiv = $(this).attr("city-name");
+   var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        cityDiv + "&api_key=dc6zaTOxFJmzC&limit=10";
+$.ajax({
+    url: queryURL,
+    method: "GET"
+}).then(function(response) {
+    var buttonDiv = $("<div>");
+    var rating = response.Rated
+    var ratingDiv = $("<p>").text("Rated " + rating);
+    buttonDiv.append(ratingDiv);
+    var img = $("<img>");
+    // img.addClass("infoButton");
+    img.attr("city-name");
+    buttonDiv.append(img);
+    $("#gif-box").append(buttonDiv);
+});
+
+
+})
+//get images
+//get rating between g and pg13 response.
+//add attribute
+
+function renderButtons() {
+$("#cities-buttons").empty();
+for (var i=0; i<cities.length;i++){
+    var buttons = $("<button>");
+    buttons.addClass("cities-buttons");
+    buttons.attr("city-name", cities[i]);
+    buttons.text(cities[i]);
+    $("#cities-buttons").append(buttons);
+}
+}
+
+//add button function
+
+
+renderButtons();
+
+$("#add-cities").on("click", function(){
+    event.preventDefault();
+    var newCity = $("#cities-input").val().trim();
+    cities.push(newCity);
+
+
+renderButtons();
+})
+
+//need to write code to push user additions into the array
+//when you click each button, a list of giphs appear
+//giphs are all still
+//images rotate between still and animate on mouse click
+//giphs are rated g, pg, pg-12
+//get 10 images
+//call renderButtons function when adding a new button to the array AND to make the original buttons show on the page
+
+</script>
+
+</html>
