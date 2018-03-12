@@ -28,10 +28,14 @@
 var cities = ["Philadelphia", "New York", "Denver", "London", "Tokyo", "Florence", "Rome", "Berlin", "Paris", "Madrid", "Tel Aviv", "Los Angeles", "Beijing", "Bangkok", "Istanbul", "Hong Kong", "Amsterdam", "Sydney", "Shanghai", "Barcelona"];
 //need to generate buttons for each item in the array
 
-$("#cities-buttons").on("click", function(){
-   var cityDiv = $(this).attr('city-name');
-   var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
-        cityDiv + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+$(document).on("click", ".city-buttons", function(){
+
+   var cityDiv = $(this).attr("city-name");
+   alert(cityDiv);
+   var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=0OSjad12uAkQ62BWC5aLeJcBZp4GHXKn&q=" +
+        cityDiv + "&limit=10&offset=0&rating=PG-13&lang=en";
+        console.log(queryURL);
 $.ajax({
     url: queryURL,
     method: "GET"
@@ -40,7 +44,7 @@ var results = response.data;
 console.log(results);
 for (var i=0; i<results.length; i++) {
     var buttonDiv = $("<div>");
-    var rating = results[i].rating;
+    var rating = response.data[i].rating;
     var ratingDiv = $("<p>").text("Rated " + rating);
     buttonDiv.append(ratingDiv);
     var img = $("<img>");
@@ -48,28 +52,81 @@ for (var i=0; i<results.length; i++) {
     img.attr("city-name");
     img.attr("src", results[i].images.fixed_height.url);
     buttonDiv.append(img);
-    $("#gif-box").append(buttonDiv);
+    $("#gif-box").prepend(buttonDiv);
 
     }
 });
-
-function createQueryUrl() {
-    
-}
+});
 
 
-})
-//get images
-//get rating between g and pg13 response.
-//add attribute
+// function addToButtons(){
+//     var queryURL = createQueryUrl();
+//     $.ajax({
+//     url: queryURL,
+//     method: "GET"
+// }).then(function(response) {
+// var results = response.data;
+// console.log(results);
+// for (var i=0; i<results.length; i++) {
+//     var buttonDiv = $("<div>");
+//     var rating = response.data[i].rating;
+//     var ratingDiv = $("<p>").text("Rated " + rating);
+//     buttonDiv.append(ratingDiv);
+//     var img = $("<img>");
+//     // img.addClass("infoButton");
+//     img.attr("city-name");
+//     img.attr("src", results[i].images.fixed_height.url);
+//     buttonDiv.append(img);
+//     $("#gif-box").append(buttonDiv);
+
+//     }
+// });
+// }
+
+// $("#cities-buttons").on("click", function(){
+//     var searchTerm = $(this).attr("city-name");
+//     var queryURL = "https://api.giphy.com/v1/gifs/search?q="
+//     queryURL += searchTerm;
+//     queryURL += "&api_key=dc6zaTOxFJmzC&limit=10&offset=0&rating=PG-13&lang=en";
+//     console.log(queryURL);
+// $.ajax({
+//     url: queryURL,
+//     method: "GET"
+// }).then(function(response) {
+// var results = response.data;
+// console.log(results);
+// for (var i=0; i<results.length; i++) {
+//     var buttonDiv = $("<div>");
+//     var rating = results[i].rating;
+//     var ratingDiv = $("<p>").text("Rated " + rating);
+//     buttonDiv.append(ratingDiv);
+//     var img = $("<img>");
+//     // img.addClass("infoButton");
+//     img.attr("city-name");
+//     img.attr("src", results[i].images.fixed_height.url);
+//     buttonDiv.append(img);
+//     $("#gif-box").append(buttonDiv);
+
+//     }
+// });
+// });
+
+
+// function createQueryUrl() {
+//     var queryURL = "https://api.giphy.com/v1/gifs/search?q="
+//     var searchTerm = $("#cities-buttons").val();
+//     queryURL += searchTerm;
+//     queryURL += "&api_key=dc6zaTOxFJmzC&limit=10&offset=0&rating=PG-13&lang=en";
+//     }
+
 
 function renderButtons() {
 $("#cities-buttons").empty();
 for (var i=0; i<cities.length;i++){
     var buttons = $("<button>");
-    buttons.addClass("cities-buttons");
-    buttons.attr('city-name', cities[i]);
-    buttons.text(cities[i]);
+    buttons.addClass("city-buttons");
+    buttons.attr("city-name", cities[i]);
+    buttons.html(cities[i]);
     $("#cities-buttons").append(buttons);
 }
 }
@@ -78,15 +135,15 @@ for (var i=0; i<cities.length;i++){
 
 
 renderButtons();
+// addToButtons();
 
 $("#add-cities").on("click", function(){
     event.preventDefault();
     var newCity = $("#cities-input").val().trim();
     cities.push(newCity);
-
-
 renderButtons();
 })
+
 
 //need to write code to push user additions into the array
 //when you click each button, a list of giphs appear
