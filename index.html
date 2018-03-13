@@ -8,7 +8,9 @@
 </head>
 <body>
 
+
 <div id="cities-buttons"></div>
+
 
 <div id="cities-form">
     <label for="cities-input"><span style="font-weight: bold">Add a City</span></label></br>
@@ -16,7 +18,9 @@
     <input id="add-cities" type="submit" value="Submit">
 </div>
 
+
 <div id="gif-box"></div>
+
 
 </body>
 
@@ -32,10 +36,8 @@ var cities = ["Philadelphia", "New York", "Denver", "London", "Tokyo", "Florence
 $(document).on("click", ".city-buttons", function(){
 
    var cityDiv = $(this).attr("city-name");
-   alert(cityDiv);
    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=0OSjad12uAkQ62BWC5aLeJcBZp4GHXKn&q=" +
         cityDiv + "&limit=10&offset=0&rating=PG-13&lang=en";
-        console.log(queryURL);
 $.ajax({
     url: queryURL,
     method: "GET"
@@ -49,8 +51,11 @@ for (var i=0; i<results.length; i++) {
     buttonDiv.append(ratingDiv);
     var img = $("<img>");
     // img.addClass("infoButton");
-    img.attr("city-name");
-    img.attr("src", results[i].images.fixed_height.url);
+    img.addClass("giphys")
+    img.attr('src', results[i].images.fixed_height_still.url);
+    img.attr('data-still', results[i].images.fixed_height_still.url);
+    img.attr('data-animate', results[i].images.fixed_height.url);
+    img.attr('data-state', 'still');
     buttonDiv.append(img);
     $("#gif-box").prepend(buttonDiv);
 
@@ -59,65 +64,18 @@ for (var i=0; i<results.length; i++) {
 });
 
 
-// function addToButtons(){
-//     var queryURL = createQueryUrl();
-//     $.ajax({
-//     url: queryURL,
-//     method: "GET"
-// }).then(function(response) {
-// var results = response.data;
-// console.log(results);
-// for (var i=0; i<results.length; i++) {
-//     var buttonDiv = $("<div>");
-//     var rating = response.data[i].rating;
-//     var ratingDiv = $("<p>").text("Rated " + rating);
-//     buttonDiv.append(ratingDiv);
-//     var img = $("<img>");
-//     // img.addClass("infoButton");
-//     img.attr("city-name");
-//     img.attr("src", results[i].images.fixed_height.url);
-//     buttonDiv.append(img);
-//     $("#gif-box").append(buttonDiv);
+$("#gif-box").on("click", ".giphys", function (){
+var state = $(this).attr('data-state');
+if (state === 'still') {
+    $(this).attr('src', $(this).attr('data-animate'));
+    $(this).attr('data-state', 'animate');
+} else {
+        $(this).attr('src', $(this).attr('data-still'));
+        $(this).attr('data-state', 'still');
+      }
 
-//     }
-// });
-// }
+}) 
 
-// $("#cities-buttons").on("click", function(){
-//     var searchTerm = $(this).attr("city-name");
-//     var queryURL = "https://api.giphy.com/v1/gifs/search?q="
-//     queryURL += searchTerm;
-//     queryURL += "&api_key=dc6zaTOxFJmzC&limit=10&offset=0&rating=PG-13&lang=en";
-//     console.log(queryURL);
-// $.ajax({
-//     url: queryURL,
-//     method: "GET"
-// }).then(function(response) {
-// var results = response.data;
-// console.log(results);
-// for (var i=0; i<results.length; i++) {
-//     var buttonDiv = $("<div>");
-//     var rating = results[i].rating;
-//     var ratingDiv = $("<p>").text("Rated " + rating);
-//     buttonDiv.append(ratingDiv);
-//     var img = $("<img>");
-//     // img.addClass("infoButton");
-//     img.attr("city-name");
-//     img.attr("src", results[i].images.fixed_height.url);
-//     buttonDiv.append(img);
-//     $("#gif-box").append(buttonDiv);
-
-//     }
-// });
-// });
-
-
-// function createQueryUrl() {
-//     var queryURL = "https://api.giphy.com/v1/gifs/search?q="
-//     var searchTerm = $("#cities-buttons").val();
-//     queryURL += searchTerm;
-//     queryURL += "&api_key=dc6zaTOxFJmzC&limit=10&offset=0&rating=PG-13&lang=en";
-//     }
 
 
 function renderButtons() {
