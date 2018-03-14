@@ -40,6 +40,6 @@ background-color: #F5F5F5
     color: white;
 }
 
-/* #gif-box {
-    display: inline-block;
-} */
+.giphys {
+    display: inline;
+}
